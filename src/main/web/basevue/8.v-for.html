@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>v-for</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <!--<p>{{list[0]}}</p>-->
+    <!--<p>{{list[1]}}</p>-->
+    <!--<p>{{list[2]}}</p>-->
+
+
+    <!--迭代数组-->
+    <!--<p v-for="item in list">{{item}}</p>-->
+    <!--迭代数组-->
+    <!--<p v-for="(index,item) in list">索引值:{{index}}-&#45;&#45;&ndash;&gt;对应取值:{{item}}</p>-->
+    <!--迭代对象数组-->
+    <!--<p v-for="(index,item) in objlist">索引值:{{index}}-&#45;&#45;&ndash;&gt;对应值id:{{item.id}},对应值name:{{item.name}}</p>-->
+    <!--迭代一个对象-->
+    <!--<p v-for="(key,val) in user">-&#45;&#45;&ndash;&gt;对象key:{{key}},对象val:{{val}}</p>-->
+    <!--迭代数字-->
+    <p v-for="i in 10">----->{{i}}</p>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list:[11,22,33,44,55,66],
+            objlist:[
+                {id:1,name:'weihuanbo'},
+                {id:2,name:'weihuantao'},
+                {id:3,name:'weilizhi'},
+                {id:4,name:'weixueying'},
+                {id:5,name:'wei......'}
+            ],
+            user:{id:1,name:'weihuanbo',gender:'男'}
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>

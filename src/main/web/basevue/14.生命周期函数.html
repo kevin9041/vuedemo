@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>生命周期函数</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+
+    <input type="text" :value="msg">
+    <input type="button" value="更新vue实例" @click="updateMsg"/>
+    <input type="button" value="销毁vue实例" @click="destroyVue"/>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg:'init msg ...'
+        },
+        methods: {
+            updateMsg:function(){
+                this.msg= 'msg updated !';
+            },
+            destroyVue:function(){
+                //vue的destroyed和beforeDestroy不好验证
+
+            }
+        },
+        //vue生命周期函数
+        //创建时期的钩子函数：beforeCreate  created   beforeMount   mounted
+        beforeCreate:function () {
+            //在vue实例创建之前调用，此时不可以调用vue实例中的属性和方法
+
+            console.log("beforeCreate");
+        },
+        created:function () {
+            //vue实例创建好之后调用，所以最早调用vue实例中属性和方法的最早的时刻
+
+            console.log("created");
+        },
+        beforeMount:function () {
+            //将vue中的代码对应页面绑定映射关系，在内存中生成编译，尚未渲染到页面中
+            //在该函数执行时，页面中的元素还没有真正被替换，只是模板字符串的形式
+
+//            console.log(document.getElementById("xxxid"));//比如：{{msg}}
+
+            console.log("beforeMount");
+        },
+        mounted:function () {
+            //表示页面已经渲染成功，而不是{{msg}}的形式，是vue实例创建时候的最后一个实例，此时vue实例已经创建好了
+            //此时vue实例已经静静的躺在内存中了，一动不动哈哈
+
+//            console.log(document.getElementById("xxxid"));//比如：ok
+
+            console.log("mounted");
+        },
+        //执行时期的钩子函数：
+        beforeUpdate:function () {
+            //更新了内存中的虚拟dom树，页面还没有重新渲染
+            console.log("beforeUpdate");
+        },
+        updated:function () {
+            //页面重新渲染，同步vue实例中的数据和页面数据
+            console.log("updated");
+        },
+        //销毁时期的钩子函数
+        beforeDestroy:function () {
+            //vue实例中运行阶段进入销毁阶段
+            console.log("beforeDestroy");
+        },
+        destroyed:function () {
+            //执行销毁了！
+            console.log("destroyed");
+        }
+
+    });
+</script>
+</body>
+</html>

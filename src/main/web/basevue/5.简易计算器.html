@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>简易计算器</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="n1"/>
+    <select v-model="opt">
+        <option value="+">+</option>
+        <option value="-">-</option>
+        <option value="*">*</option>
+        <option value="/">/</option>
+    </select>
+    <input type="text" v-model="n2">
+    <input type="button" value="=" @click="output">
+    <input type="text" v-model="result">
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            n1:0,
+            n2:0,
+            result:0,
+            opt:'+'
+        },
+        methods: {
+            output:function () {
+//                switch (this.opt){
+//                    case '+':
+//                        this.result=parseInt(this.n1)+parseInt(this.n2);
+//                        break;
+//                    case '-':
+//                        this.result=parseInt(this.n1)-parseInt(this.n2);
+//                        break;
+//                    case '*':
+//                        this.result=parseInt(this.n1)*parseInt(this.n2);
+//                        break;
+//                    case '/':
+//                        this.result=parseInt(this.n1)/parseInt(this.n2);
+//                        break;
+//                }
+
+                //投机取巧，开发中不建议使用
+                var resultCode='parseInt(this.n1)'+this.opt+'parseInt(this.n2)';
+                this.result=eval(resultCode);
+            }
+        }
+    });
+</script>
+</body>
+</html>

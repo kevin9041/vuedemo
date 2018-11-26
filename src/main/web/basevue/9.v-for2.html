@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>v-for2</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <label>id: </label><input type="text" v-model="id">
+    <label>name: </label><input type="text" v-model="name">
+    <input type="button" value="添加" @click="add">
+    <!--v-for遍历的变量如果改变，会自动重新渲染-->
+    <!--使用key用于记录重新渲染前列表的选中状态，key的值必须是字符串或者数字-->
+    <!--其实我没有复现？-->
+    <p v-for="item in list" :key="item.id">
+        <input type="checkbox">{{item.id}}---{{item.name}}
+    </p>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            id: '',
+            name: '',
+            list: [
+                {id: 1, name: '安其拉'},
+                {id: 2, name: '后裔'},
+                {id: 3, name: '李元芳'},
+                {id: 4, name: '李白'},
+                {id: 5, name: '妲己'}
+            ]
+        },
+        methods: {
+            add: function () {
+                //在尾部追加
+//                this.list.push({id: this.id, name: this.name});
+                //unshift在头部追加
+                this.list.unshift({id: this.id, name: this.name});
+            }
+        }
+    });
+</script>
+</body>
+</html>

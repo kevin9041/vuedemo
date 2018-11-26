@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <title>品牌列表案例2</title>
+  <style>
+    #listdiv >div{
+      float: left;
+    }
+    #listdiv input{
+      text-align: center;
+    }
+    #listdiv a:hover{
+      cursor: pointer;
+    }
+  </style>
+  <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+  <div style="width: 100%;height: 50px;background-color: #d8de5b;text-align: center;line-height: 50px;">品牌列表案例</div>
+  <br>
+  <label for="carid">
+    <input id="carid" type="text" v-model="carid" @keyup.enter.myf2="add"/>
+  </label>
+  <label for="carname">
+    <!--定义键盘事件，并添加按键修饰符-->
+    <!--系统内置的按键修饰符：
+      enter
+      tab
+      space
+      delete
+      up
+      down
+      left
+      right
+      esc
+      -->
+    <input id="carname" type="text" v-model="carname" @keyup.enter.myf2="add"/>
+    <!--<input id="carname" type="text" v-model="carname" @keyup.enter="add"/>-->
+  </label>
+  <input type="button"  value="添加" @click="add"/>
+
+  <label>关键字查询</label>
+  <input type="text" value="" v-model="keywords" v-focus v-color="'blue'"><!--注意这个地方的参数如果非数字则是字符串的形式：'blue'-->
+  <hr>
+
+  <div id="listdiv" v-for="item in query2(keywords)" :key="item.id">
+    <!--<div id="listdiv" v-for="item in list" :key="item.id">-->
+    <input :value="item.id">
+    <input :value="item.name">
+    <input :value="item.ctime | dateFormate2()">
+    <!--<input :value="item.ctime | dateFormate()">-->
+    <a @click.prevent.stop="del(item.id)">删除</a>
+  </div>
+</div>
+<hr>
+<div id="app2">
+    <input :value="list[1].ctime | dateFormate2()" v-fontWeight="900" v-fontsize="'30px'">
+</div>
+<script type="text/javascript">
+
+  //自定义全局的按键修饰符
+  Vue.config.keyCodes.myf2=113;
+
+  //自定义指令,注意没有v-,其回调函数的第一个参数都是被绑定了指令的元素el
+  Vue.directive('focus',{
+      //当指令绑定制定元素的时候会立即执行，，并且只执行一次，注意这个时候元素还没有插入到dom，所以此时执行el.focus();没有效果
+      //el代表指令绑定的元素
+      bind:function(el) {
+//        el.focus();  没有效果
+//          和样式相关的操作放在bind钩子函数中，因为样式绑定到dom后，即便从内存写入到页面也一样生效！！
+      },
+      //当元素插入到dom中的时候，会执行该函数，也是只执行一次
+      inserted:function(el){
+          el.focus();
+//          和行为相关的操作放在inserted钩子函数中，防止dom从内存中添加到页面后行为不生效！！
+      },
+      //当元素发生更新的时候，会出发该方法
+      update:function(el){
+          console.log("updated!"+new Date().toString());
+      }
+  });
+  Vue.directive('color', {
+      bind:function (el,binding) {
+          console.log(binding);
+
+          //取自定义指令的参数，通过给定的第二个参数binding对象操作
+          el.style.color=binding.value;
+      },
+      inserted:function (el) {
+
+      },
+      update:function (el) {
+
+      }
+  });
+
+  //定义时间过滤器------全局的
+  Vue.filter('dateFormate',function (date) {
+      var y = date.getFullYear();
+      //padStart() 该方法应用于str类型，es6的新方法，第一个参数是填充后的位数，第二个参数表示以什么填充
+      //相应的还有padEnd()
+      var m = (date.getMonth()+1).toString().padStart(2,'0');
+      var d = (date.getDate()).toString().padStart(2,'0');
+
+      var h = (date.getHours()).toString().padStart(2,'0');
+      var mi = (date.getMinutes()).toString().padStart(2,'0');
+      var s = (date.getSeconds()).toString().padStart(2,'0');
+
+//      return y+'-'+m+'-'+d+' '+h+':'+mi+':'+s;
+      //格式化字符串
+      return `${y}-${m}-${d} ${h}:${mi}:${s}`;
+  });
+  Vue.filter('dateFormate2',function (date,patten="") {//patten=""  es6形参位置给默认值
+//  Vue.filter('dateFormate2',function (date,patten) {
+      var y = date.getFullYear();
+      var m = (date.getMonth()+1).toString().padStart(2,'0');
+      var d = date.getDate().toString().padStart(2,'0');
+      //if(patten&&&   避免没传patten时undefined的情况
+      if(patten&&patten.toLowerCase()=='yyyy-mm-dd'){
+          return `${y}-${m}-${d}`;
+      }else {
+          var h = date.getHours().toString().padStart(2,'0');
+          var mi =date.getMinutes().toString().padStart(2,'0');
+          var s = date.getSeconds().toString().padStart(2,'0');
+
+          return `${y}-${m}-${d} ${h}:${mi}:${s}`;
+      }
+  });
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list:[
+                {id:1,name:'长安奔奔',ctime:new Date()},
+                {id:2,name:'奥迪',ctime:new Date()},
+                {id:3,name:'奔驰',ctime:new Date()},
+                {id:4,name:'宝马',ctime:new Date()}
+            ],
+            carid:'',
+            carname:'',
+            keywords:''
+        },
+        methods: {
+            del:function (id) {
+//                寫法1
+//                _list=this.list;
+//                //JS遍歷數組
+//                this.list.some(function (item,index) {
+//                    if(item.id == id){
+//                        //從數組中在指定位置刪除count個元素
+//                        console.log(id);
+//                        _list.splice(index,1);
+//                        //跳出循環
+//                        return true;
+//                    }
+//                });
+
+//                寫法2
+                var index = this.list.findIndex(function (item) {
+                    if(item.id==id){
+                        return true;
+                    }
+                });
+                this.list.splice(index,1);
+            },
+            add:function () {
+                var newcar = {id:this.carid,name:this.carname,ctime:new Date()};
+                this.list.push(newcar);
+                this.carid=this.carname='';
+            },
+            query:function (keywords) {
+                //数组的新方法：forEach  some filter findIndex
+                var querylist = new Array();
+                if(keywords!=null&&keywords!=''){
+                    this.list.forEach(function (item) {
+//                    this.list.some(function (item,i) {
+                        if (item.name.indexOf(keywords)!=-1){
+                            querylist.push(item);
+                        }
+                    });
+                    return querylist;
+                }
+                return this.list;
+            },
+            query2:function (keywords) {
+                if(keywords!=null&&keywords!=''){
+                    var querylist = this.list.filter(function (item) {
+                        //includes es6中新方法
+                        if (item.name.includes(keywords)){
+                            return item;
+                        }
+                    });
+                    return querylist;
+                }else{
+                    return this.list;
+                }
+            }
+        }
+    });
+
+    var vm2 = new Vue({
+        el: "#app2",
+        data: {
+            list:[
+                {id:1,name:'长安奔奔',ctime:new Date()},
+                {id:2,name:'奥迪',ctime:new Date()},
+                {id:3,name:'奔驰',ctime:new Date()},
+                {id:4,name:'宝马',ctime:new Date()}
+            ]
+        },
+        methods: {},
+        filters:{
+            //定义私有过滤器
+            dateFormate2:function (date,patten="") {
+                return '2018-09-22 14:24:00';
+            }
+        },
+        directives:{
+            fontweight:{//测试通过：这个地方如果改成fontWeight，指令失效,不能使用样式中的关键字 ？
+                bind:function (el,binding) {
+                    el.style.fontWeight= binding.value;
+                }
+            },
+            //指令的简写：如果只是在bind和update中有代码逻辑，可以简写指令
+            //等同于在bind和update中都写了一份同样的代码
+            fontsize:function (el,binding) {
+                el.style.fontSize=binding.value;
+            }
+        }
+    });
+</script>
+</body>
+</html>

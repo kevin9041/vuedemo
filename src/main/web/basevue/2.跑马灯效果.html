@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>跑马灯效果</title>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <br>
+    <input type="button" :value="btnActiveVal" @click="active">
+    <input type="button" :value="btnStaticVal" @click="static">
+    <br><br>
+    <h4>{{showVal}}</h4>
+</div>
+
+<script type="text/javascript">
+    //注意;在vue实例中，获取data上的数据或调用methods中的方法， 必须通过this.的方式来访问！
+    var mv = new Vue({
+        el: '#app',
+        //vm 实例会监听自己身上data中数据的改变，自动渲染页面
+        data: {
+            btnActiveVal:'浪起来~~',
+            btnStaticVal:'低调',
+            showVal:'凭实力输了比赛才值得骄傲！猥琐发育，别浪~~~ ',
+            itval:null
+        },
+        methods: {
+            active: function () {
+                //避免连续多次点击‘浪起来’
+                if(this.itval!=null){
+                    return;
+                }
+                //注意！
+                _this = this;
+                this.itval = setInterval(function () {
+                    var first = _this.showVal.substring(0,1);
+                    _this.showVal = _this.showVal.substr(1)+first;
+                },200);
+
+            },
+            static: function () {
+                //注意！
+                _this = this;
+                clearInterval(_this.itval);
+
+                //重新把this.itval置为null
+                this.itval = null;
+            }
+        }
+    });
+</script>
+</body>
+</html>

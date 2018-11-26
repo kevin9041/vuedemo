@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>品牌列表案例</title>
+    <style>
+        #listdiv >div{
+            float: left;
+        }
+        #listdiv input{
+            text-align: center;
+        }
+        #listdiv a:hover{
+            cursor: pointer;
+        }
+    </style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <div style="width: 100%;height: 50px;background-color: #d8de5b;text-align: center;line-height: 50px;">品牌列表案例</div>
+    <br>
+    <label for="carid">
+        <input id="carid" type="text" v-model="carid"/>
+    </label>
+    <label for="carname">
+        <input id="carname" type="text" v-model="carname"/>
+    </label>
+    <input type="button"  value="添加" @click="add"/>
+
+    <label>关键字查询</label>
+    <input type="text" value="" v-model="keywords">
+    <hr>
+
+    <div id="listdiv" v-for="item in query2(keywords)" :key="item.id">
+    <!--<div id="listdiv" v-for="item in list" :key="item.id">-->
+        <input :value="item.id">
+        <input :value="item.name">
+        <input :value="item.ctime">
+        <a @click.prevent.stop="del(item.id)">删除</a>
+    </div>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            list:[
+                {id:1,name:'长安奔奔',ctime:new Date()},
+                {id:2,name:'奥迪',ctime:new Date()},
+                {id:3,name:'奔驰',ctime:new Date()},
+                {id:4,name:'宝马',ctime:new Date()}
+            ],
+            carid:'',
+            carname:'',
+            keywords:''
+        },
+        methods: {
+            del:function (id) {
+//                寫法1
+//                _list=this.list;
+//                //JS遍歷數組
+//                this.list.some(function (item,index) {
+//                    if(item.id == id){
+//                        //從數組中在指定位置刪除count個元素
+//                        console.log(id);
+//                        _list.splice(index,1);
+//                        //跳出循環
+//                        return true;
+//                    }
+//                });
+
+//                寫法2
+                var index = this.list.findIndex(function (item) {
+                    if(item.id==id){
+                        return true;
+                    }
+                });
+                this.list.splice(index,1);
+            },
+            add:function () {
+                var newcar = {id:this.carid,name:this.carname,ctime:new Date()};
+                this.list.push(newcar);
+                this.carid=this.carname='';
+            },
+            query:function (keywords) {
+                //数组的新方法：forEach  some filter findIndex
+                var querylist = new Array();
+                if(keywords!=null&&keywords!=''){
+                    this.list.forEach(function (item) {
+//                    this.list.some(function (item,i) {
+                        if (item.name.indexOf(keywords)!=-1){
+                            querylist.push(item);
+                        }
+                    });
+                    return querylist;
+                }
+                return this.list;
+            },
+            query2:function (keywords) {
+                if(keywords!=null&&keywords!=''){
+                    var querylist = this.list.filter(function (item) {
+                        //includes es6中新方法
+                        if (item.name.includes(keywords)){
+                            return item;
+                        }
+                    });
+                    return querylist;
+                }else{
+                    return this.list;
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>

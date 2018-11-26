@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>v-cloak v-text v-html</title>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+    <style>
+        [v-cloak]{
+            /*display: none;*/
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--使用v-cloak能够解决插值表达式闪烁的问题-->
+    <!--插值表达式只会替换自己的占位符，不会替换整个元素的内容-->
+    <p v-cloak>+++++++++++++++++++{{msg}}========================</p>
+    <!--默认v-text是没有闪烁问题的-->
+    <!--v-text会覆盖元素中原有的全部内容-->
+    <div v-text="v_text_msg">rewrited</div>
+    <!--v-heml也会覆盖元素中原有的全部内容，而且会把其内容当作页面元素显示，即页面标签有效-->
+    <div v-html="v_html_msg">rewrited</div>
+    <!--v-bind用于绑定元素节点中的属性-->
+    <!--v-bind的支持表达式写法：v-bind:title="bindtitle + ' plus content'"-->
+    <!--v-bind 可以简写为 :-->
+    <input value="按钮" type="button" :title="bindtitle + ' plus content'">
+    <!--<input value="按钮" type="button" v-bind:title="bindtitle + ' plus content'">-->
+    <!--<input value="按钮" type="button" v-bind:title="bindtitle">-->
+
+    <!--vue 中的事件绑定v-on：click-->
+    <!--v-on 可以简写为 @-->
+    <input type="button" value="按钮-v-on指令" @click="show">
+    <!--<input type="button" value="按钮-v-on指令" v-on:click="show">-->
+
+</div>
+
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            msg:'插值表达式',
+            v_text_msg: 'v_text Info',
+            v_html_msg:'<h1>哈哈，我是一个大大的H1，我大，我骄傲！</h1>',
+            bindtitle:'这是我自定义的title'
+        },
+        //这个methods属性中d定义了当前vue实例中所有可用的方法
+        methods:{
+            show:function () {
+                alert(6666);
+            }
+        }
+    });
+</script>
+
+</body>
+</html>

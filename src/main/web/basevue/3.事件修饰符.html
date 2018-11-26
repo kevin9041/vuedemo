@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>事件修饰符</title>
+    <style>
+        .innerDiv{
+            height: 150px;
+            background-color: lightgreen;
+        }
+        .outerDiv{
+            padding: 20px;
+            background-color: darkred;
+        }
+    </style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <!--.stop 阻止冒泡，应用触发的顺序：从里到到-->
+    <!--<div class="innerDiv" @click="divHandler">-->
+        <!--<input type="button" @click.stop="btnHandler" value="        戳 它       ">-->
+    <!--</div>-->
+
+    <!--.prevent 组织默认行为-->
+    <!--<a href="http://www.baidu.com" @click.prevent="linkClick">有事就百度</a>-->
+
+    <!--.capture 捕获事件，显示的效果：触发顺序从外到里-->
+    <!--<div class="innerDiv" @click.capture="divHandler">-->
+        <!--<input type="button" @click="btnHandler" value="        戳 它       ">-->
+    <!--</div>-->
+
+    <!--.self 实现只有点击当前元素的时候才会出发自身事件-->
+    <!--<div class="innerDiv" @click.self="divHandler">-->
+        <!--<input type="button" @click="btnHandler" value="        戳 它       ">-->
+    <!--</div>-->
+
+    <!--.once 实现只触发一次绑定事件-->
+    <!--<a href="http://www.baidu.com" @click.prevent.once="linkClick">有事就百度</a>-->
+
+    <!--注意：.stop 和 .self都可以阻止冒泡，但是.self 只阻止自身不受冒泡影响-->
+    <!--<div class="outerDiv" @click="outerDivHandler">-->
+        <!--<div class="innerDiv" @click="divHandler">-->
+            <!--<input type="button" @click.stop="btnHandler" value="        戳 它       ">-->
+        <!--</div>-->
+    <!--</div>-->
+    <div class="outerDiv" @click="outerDivHandler">
+        <div class="innerDiv" @click.self="divHandler">
+            <input type="button" @click="btnHandler" value="        戳 它       ">
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#app',
+        data: {
+
+        },
+        methods: {
+            divHandler:function () {
+                console.log("divHandler message ..");
+            },
+            btnHandler:function(){
+                console.log("btnHandler message ..");
+            },
+            linkClick:function () {
+                console.log("a link clicked !")
+            },
+            outerDivHandler:function () {
+                console.log("outerDivHandler message ..")
+            }
+        }
+    });
+</script>
+</body>
+</html>

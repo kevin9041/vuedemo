@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+
+<body>
+  <div id="app">
+    <!-- 父组件向子组件传递方法，使用的是 事件绑定机制；func随便写 但是show代表父组件的方法名不可以随便定义，且不能带（）-->
+    <com2 @func="show"></com2>
+
+    <br>
+    <div style="color: greenyellow">子组件的值：{{datamsgFormSon}}</div>
+  </div>
+
+  <template id="tmpl">
+    <div>
+      <h1>这是 子组件</h1>
+      <input type="button" value="这是子组件中的按钮 - 点击它，触发 父组件传递过来的 func 方法" @click="myclick">
+    </div>
+  </template>
+
+  <script>
+
+    // 定义了一个字面量类型的 组件模板对象
+    var com2 = {
+      template: '#tmpl',
+      data() {
+        return {
+          sonmsg: { name: '小头儿子', age: 6 }
+        }
+      },
+      methods: {
+        myclick() {
+          // 当点击子组件的按钮的时候，如何 拿到 父组件传递过来的 func 方法，并调用这个方法？？？
+          //  emit 英文原意： 是触发，调用、发射的意思
+          // this.$emit('func123', 123, 456)
+
+            //【子组件通过调用父组件的方法把子组件的值以参数的形式传递给父组件】
+          this.$emit('func', this.sonmsg)
+        }
+      }
+    }
+
+
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        datamsgFormSon: null
+      },
+      methods: {
+        show(data) {
+//        show(data,data2) {
+          // console.log('调用了父组件身上的 show 方法: --- ' + data+data2)
+          // console.log('调用了父组件身上的 show 方法: --- ' + data)
+
+            //【父组件在自身被子组件调用的方法中，接受子组件以参数形式传递过来的值并赋值给父组件自身的变量】
+          this.datamsgFormSon = data
+        }
+      },
+
+      components: {
+        com2
+        // com2: com2
+      }
+    });
+  </script>
+</body>
+
+</html>

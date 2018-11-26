@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>过滤器的基本使用</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <p>{{msg | msgFilter1()}}</p>
+    <p>{{msg | msgFilter2('~~~~~')}}</p>
+    <p>{{msg | msgFilter3('~~~~~','~~~~~')}}</p>
+    <p>{{msg | msgFilter3('~~~~~','~~~~~') | msgFilter1}}</p>
+</div>
+<script type="text/javascript">
+
+    //定义全局的过滤器,第一个参数代表使用过滤器的对象本身
+    Vue.filter("msgFilter1",function (data) {
+        return data.replace(/单纯/g,'邪恶');
+    });
+    Vue.filter("msgFilter2",function (data,arg) {
+        return data+arg;
+//        return data.replace(/单纯/g,arg);
+    });
+    Vue.filter("msgFilter3",function (data,arg1,arg2) {
+        return arg1+data+arg2;
+    });
+
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            msg:'曾经我也是一个单纯的少年，单纯的我，傻傻地问，谁是这个世界上最单纯的男人'
+        },
+        methods: {
+
+        }
+    });
+</script>
+</body>
+</html>

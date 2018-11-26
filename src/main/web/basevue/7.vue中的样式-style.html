@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title>vue中的样式-style</title>
+    <style></style>
+    <script type="text/javascript" th:src="@{/webjars/vue/2.5.17/dist/vue.js}"></script>
+</head>
+<body>
+<div id="app">
+    <!--如果样式关键字有-的需要加上引号-->
+    <!--font-weight   取值不需要加px 直接是数字-->
+    <!--<h1 :style="{color:'red','font-weight':200}">这是一个H1</h1>-->
+    <!--使用在data中定义的样式对象-->
+    <!--<h1 :style="styleObj">这是一个H1</h1>-->
+    <!--应用多个对象时，采用数组的形式，注意没有引号！-->
+    <h1 :style="[styleObj,styleObj2]">这是一个H1</h1>
+</div>
+<script type="text/javascript">
+    var vm = new Vue({
+        el: "#app",
+        data: {
+            styleObj:{color:'red','font-weight':'200'},
+            styleObj2:{color:'green','font-weight':2000}
+        },
+        methods: {}
+    });
+</script>
+</body>
+</html>
