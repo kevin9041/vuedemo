@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <title></title>
+        <!-- css 或发起二次请求，不推荐这么搞 -->
+        <!--<link rel="stylesheet" href="./css/index.css">-->
+</head>
+<body>
+<div id="app">
+    <p>标记这是一个模板，虽然访问的是index-hot.html</p>
+    <ul id="list">
+        <li>这是第1个li</li>
+        <li>这是第2个li</li>
+        <li>这是第3个li</li>
+        <li>这是第4个li</li>
+        <li>这是第5个li</li>
+        <li>这是第6个li</li>
+        <li>这是第7个li</li>
+        <li>这是第8个li</li>
+        <li>这是第9个li</li>
+        <li>这是第10个li</li>
+    </ul>
+</div>
+</body>
+<!-- main 中的代码，涉及到了ES6的新语法，但是浏览器不识别，直接应用main.js会报错-->
+<!--<script type="text/javascript" src="main.js"> </script>-->
+
+<!-- 如果没有配置webpack.config.js则可以使用webpack src/main.js dist/bundle.js打包，如果配置了webpack.config.js则只能使用webpack打包了(此时不仅打包bundle,index.html也会打包)
+不管哪种打包方式，改用webpack打包后的bundle.js解决了import语法不支持的问题，但是每次改动都要重新webpack打包-->
+
+<!--为实时打包bundle.js到内存，安装webpack-dev-server(cnpm i webpack-dev-server -D并配置package.js的scripts或webpack.config.js的devServer)，按照以下方式启动：
+    1.cnpm run dev-commandline 或者 2.cnpm run dev
+    -->
+
+<!--引用的物理磁盘的bundle(当然可以cnpm run dev-commandline的方式运行，没有引用内存中的bundle罢了)-->
+<!--<script type="text/javascript" src="../dist/bundle.js"> </script>-->
+
+<!--引用内存中的bundle,其路径为项目托管的目录/bundle.js并且和index.html同级-->
+<!--<script type="text/javascript" src="bundle.js"> </script>-->
+
+<!--当使用 html-webpack-plugin 之后还不用手动定义script，插件会自动引用bundle-->
+
+
+</html>
