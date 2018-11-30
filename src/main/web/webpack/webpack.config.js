@@ -20,9 +20,9 @@ module.exports = {
     },
     devServer: { // 这是配置 webpack-dev-server 命令参数的第二种形式，相对来说，这种方式麻烦一些
         //  --open --port 3000 --contentBase src --hot
-        open: true, // 自动打开浏览器
+        // open: true, // 自动打开浏览器
         port: 9000, // 设置启动时候的运行端口
-        // contentBase: 'src', // 指定托管的根目录
+        contentBase: 'src', // 指定托管的根目录
         hot: true // 启用热更新 的 第1步(似乎这个配置可有可无，关键是有没有启 new webpack.HotModuleReplacementPlugin())
     },
     plugins: [ // 配置插件的节点
@@ -40,7 +40,18 @@ module.exports = {
             { test: /\.css$/, use: ['style-loader', 'css-loader'] }, //  配置处理 .css 文件的第三方loader 规则
             { test: /\.less$/, use: ['style-loader', 'css-loader', 'less-loader'] }, //配置处理 .less 文件的第三方 loader 规则
             { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'] }, // 配置处理 .scss 文件的 第三方 loader 规则
+
+            { test: /\.(jpg|png|gif|bmp|jpeg)$/, use: 'url-loader?limit=7631&name=[hash:8]-[name].[ext]' }, // 处理 图片路径的 loader
+            // limit 给定的值，是图片的大小，单位是 byte， 如果我们引用的 图片，大于或等于给定的 limit值，则不会被转为base64格式的字符串， 如果 图片小于给定的 limit 值，则会被转为 base64的字符串
+            { test: /\.(ttf|eot|svg|woff|woff2)$/, use: 'url-loader' }, // 处理 字体文件的 loader
+            { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ }, // 配置 Babel 来转换高级的ES语法
+            { test: /\.vue$/, use: 'vue-loader' } // 处理 .vue 文件的 loader
         ]
+    }
+    ,resolve: {
+        alias: { // 修改 Vue 被导入时候的包的路径
+            // "vue$": "vue/dist/vue.js"
+        }
     }
 }
 
