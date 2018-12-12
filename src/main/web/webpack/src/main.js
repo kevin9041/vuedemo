@@ -92,6 +92,8 @@ import Vue from 'vue'
 // 4. 在 package.json 文件中，查找 一个 main 属性【main属性指定了这个包在被加载时候，的入口文件】
 
 
+Vue.config.devtools = true
+
 
 // 1. 导入 login 组件
 import login from './login.vue'
