@@ -44401,7 +44401,7 @@ var render = function() {
     "div",
     { staticClass: "app-container" },
     [
-      _c("mt-header", { attrs: { fixed: "", title: "黑马程序员·Vue项目" } }, [
+      _c("mt-header", { attrs: { fixed: "", title: "程序员·Vue项目" } }, [
         _c(
           "span",
           {
