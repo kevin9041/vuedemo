@@ -25,8 +25,6 @@ public class ThymeleafTest {
     }
 
 
-
-
     //thymeleaf---basevue
     @GetMapping(value = "/basevue01")
     public String test01(){

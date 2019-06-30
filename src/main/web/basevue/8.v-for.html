@@ -21,11 +21,11 @@
     <!--迭代数组-->
     <!--<p v-for="item in list">{{item}}</p>-->
     <!--迭代数组-->
-    <!--<p v-for="(index,item) in list">索引值:{{index}}-&#45;&#45;&ndash;&gt;对应取值:{{item}}</p>-->
+    <!--<p v-for="(item,index) in list">索引:{{index}}-&#45;&#45;&ndash;&gt;对应取值:{{item}},索引值：{{index}}</p>-->
     <!--迭代对象数组-->
-    <!--<p v-for="(index,item) in objlist">索引值:{{index}}-&#45;&#45;&ndash;&gt;对应值id:{{item.id}},对应值name:{{item.name}}</p>-->
+    <p v-for="(item,index) in objlist">索引:{{index}}----->id:{{item.id}},name:{{item.name}}</p>
     <!--迭代一个对象-->
-    <!--<p v-for="(key,val) in user">-&#45;&#45;&ndash;&gt;对象key:{{key}},对象val:{{val}}</p>-->
+    <p v-for="(key,val,index) in user">----->key:{{key}},val:{{val}},索引：{{index}}</p>
     <!--迭代数字-->
     <p v-for="i in 10">----->{{i}}</p>
 </div>

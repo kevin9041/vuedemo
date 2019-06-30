@@ -18,7 +18,6 @@
     <input type="button" value="添加" @click="add">
     <!--v-for遍历的变量如果改变，会自动重新渲染-->
     <!--使用key用于记录重新渲染前列表的选中状态，key的值必须是字符串或者数字-->
-    <!--其实我没有复现？-->
     <p v-for="item in list" :key="item.id">
         <input type="checkbox">{{item.id}}---{{item.name}}
     </p>
